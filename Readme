@@ -6,7 +6,7 @@ Initial push (4/26/2022):
 -rewrote plugin code so it is now an executable
 -the revised plugin can be launched from within Eclipse (runs on citrix servers). Simply open the structure set and launch the executable (launchVMATTBIAutoPlan.esapi.dll)
 -the revised plugin can also be directly launched, although the user will have to manually enter the MRN and select the appropriate structure set
--code based on beta branch v04/11/2022
+-code based on beta branch v04/21/2022
 
 
 My current clinic has v16.1 of Eclipse whereas the scripts were built in v15.6 (during my residency). This may cause a bit of a mismatch between the code and what Eclipse requires. Both scripts will run in v16.1
