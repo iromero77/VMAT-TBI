@@ -111,7 +111,7 @@ namespace VMATTBI_optLoop
         bool copyAndSavePlanItr = false;
         bool useFlash = false;
 
-        public MainWindow()
+        public MainWindow(string[] args)
         {
             InitializeComponent();
             if (File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\configuration\\VMAT_TBI_config.ini"))

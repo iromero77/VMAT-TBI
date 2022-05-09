@@ -69,21 +69,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="autoRunData.cs" />
-    <Compile Include="AutorunProgress.xaml.cs">
-      <DependentUpon>AutorunProgress.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ESAPIworker.cs" />
     <Compile Include="selectItem.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="selectItem.Designer.cs">
       <DependentUpon>selectItem.cs</DependentUpon>
     </Compile>
-    <Page Include="AutorunProgress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

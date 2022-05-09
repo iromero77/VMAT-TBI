@@ -20,6 +20,7 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using System.Threading;
+using System.Diagnostics;
 
 // TODO: Replace the following version attributes by creating AssemblyInfo.cs. You can do this in the properties of the Visual Studio project.
 [assembly: AssemblyVersion("1.0.0.1")]
@@ -209,12 +210,11 @@ namespace VMATTBIAutoPlanMT
             InitializeComponent();
             string mrn = "";
             string ss = "";
-            string configurationFile = "";
             for (int i = 0; i < args.Length; i++)
             {
                 if (i == 0) mrn = args[i];
                 if (i == 1) ss = args[i];
-                if (i == 2) configurationFile = args[i];
+                if (i == 2) configFile = args[i];
             }
             if (string.IsNullOrEmpty(mrn) || string.IsNullOrWhiteSpace(mrn))
             {
@@ -238,7 +238,7 @@ namespace VMATTBIAutoPlanMT
             else MessageBox.Show("Warning! No structure set in context! Please select a structure set at the top of the GUI!");
 
             //load script configuration and display the settings
-            if (configurationFile != "") loadConfigurationSettings(configurationFile);
+            if (configFile != "") loadConfigurationSettings(configFile);
             displayConfigurationParameters();
 
             //pre-populate the flash comboxes (set global flash as default)
@@ -1313,6 +1313,25 @@ namespace VMATTBIAutoPlanMT
             }
             MessageBox.Show(message);
             isModified = true;
+
+            confirmUI CUI = new VMATTBIAutoPlanMT.confirmUI();
+            CUI.message.Text = "Plan is ready for optimization?" + Environment.NewLine + "Launch optimizatin loop?";
+            CUI.ShowDialog();
+            if (!CUI.confirm) return;
+            String path = FirstExePathIn(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            if (!string.IsNullOrEmpty(path))
+            {
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                processInfo.Arguments = String.Format("{0} {1}", pi.Id, configFile);
+                Process.Start(processInfo);
+            }
+            else MessageBox.Show("Error! Could not find optimization loop executable path! You will need to manually launch the program. Exiting!");
+            this.Close();
+        }
+
+        private string FirstExePathIn(string dir)
+        {
+            return Directory.GetFiles(dir, "*.exe").FirstOrDefault(x => x.Contains("VMATTBI_optLoopMT"));
         }
 
         private void add_constraint_Click(object sender, RoutedEventArgs e)
@@ -1998,49 +2017,6 @@ namespace VMATTBIAutoPlanMT
             }
             if (pi != null) app.ClosePatient();
             app.Dispose();
-        }
-
-        private void autorun_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Rx.Text)) { MessageBox.Show("Error! Please select a template regimen or enter the dose per fx and number of fx!"); return; }
-
-            //copy the sparing structures in the defaultSpareStruct list to a temporary vector
-            List<Tuple<string, string, double>> templateList = new List<Tuple<string, string, double>>(defaultSpareStruct);
-            //add the case-specific sparing structures to the temporary list
-            if (nonmyelo_chkbox.IsChecked.Value) templateList = new List<Tuple<string, string, double>>(addCaseSpecificSpareStructures(nonmyeloSpareStruct, templateList));
-            else if (myelo_chkbox.IsChecked.Value) templateList = new List<Tuple<string, string, double>>(addCaseSpecificSpareStructures(myeloSpareStruct, templateList));
-            else if (sclero_chkbox.IsChecked.Value) templateList = new List<Tuple<string, string, double>>(addCaseSpecificSpareStructures(scleroSpareStruct, templateList));
-
-            autoRunData a = new autoRunData();
-            a.construct(TS_structures, scleroStructures, templateList, selectedSS, double.Parse(defaultTargetMargin), sclero_chkbox.IsChecked.Value, useFlash, flashStructure, double.Parse(defaultFlashMargin), app);
-            //create a new thread and pass it the data structure created above (it will copy this information to its local thread memory)
-            ESAPIworker slave = new ESAPIworker(a);
-            //create a new frame (multithreading jargon)
-            DispatcherFrame frame = new DispatcherFrame();
-            //start the optimization
-            //open a new window to run on the newly created thread called "slave"
-            //for definition of the syntax used below, google "statement lambda c#"
-            RunOnNewThread(() =>
-            {
-                //pass the progress window the newly created thread and this instance of the optimizationLoop class.
-                AutorunProgress arpw = new VMATTBIAutoPlanMT.AutorunProgress(slave);
-                arpw.ShowDialog();
-
-                //tell the code to hold until the progress window closes.
-                frame.Continue = false;
-            });
-
-            Dispatcher.PushFrame(frame);
-            //addDefaultsBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        }
-
-        //method to create the new thread, set the apartment state, set the new thread to be a background thread, and execute the action supplied to this method
-        private void RunOnNewThread(Action a)
-        {
-            Thread t = new Thread(() => a());
-            t.SetApartmentState(ApartmentState.STA);
-            t.IsBackground = true;
-            t.Start();
         }
 
         private void MainWindow_SizeChanged(object sender, RoutedEventArgs e)
