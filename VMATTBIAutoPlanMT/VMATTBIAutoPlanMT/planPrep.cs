@@ -16,8 +16,6 @@ namespace VMATTBIAutoPlanMT
         IEnumerable<ExternalPlanSetup> appaPlan;
         int numVMATIsos = 0;
         int numIsos;
-        //empty vectors to hold the z positions of each isocenter and the names of each isocenter
-        List<double> zPositions = new List<double> { };
         //empty vectors to hold the isocenter position of one beam from each isocenter and the names of each isocenter
         List<Tuple<double, double, double>> isoPositions = new List<Tuple<double, double, double>> { };
         List<string> names = new List<string> { };
@@ -109,7 +107,6 @@ namespace VMATTBIAutoPlanMT
                     IEnumerable<Tuple<double, double, double>> d = isoPositions.Where(k => k.Item3 == v.z);
                     if (!d.Any())
                     {
-                        //zPositions.Add(v.z);
                         isoPositions.Add(Tuple.Create(v.x, v.y, v.z));
                         numIsos++;
                         if (numIsos - numVMATIsos > 1)
@@ -259,7 +256,7 @@ namespace VMATTBIAutoPlanMT
             {
                 confirmUI CUI = new VMATTBIAutoPlanMT.confirmUI();
                 CUI.message.Text = "I found some structures in the structure set for generating flash." + Environment.NewLine + Environment.NewLine + "Do you want me to remove them?!";
-                CUI.button1.Text = "No";
+                CUI.cancelBTN.Text = "No";
                 CUI.ShowDialog();
                 if (CUI.confirm) if (removeFlashStr()) return true;
             }

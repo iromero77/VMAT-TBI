@@ -216,7 +216,7 @@ namespace VMATTBIAutoPlanMT
                 {
                     var CUI = new VMATTBIAutoPlanMT.confirmUI();
                     CUI.message.Text = "Calculated isocenter separation > 38.0 cm, which reduces the overlap between adjacent fields!" + Environment.NewLine + Environment.NewLine + "Truncate isocenter separation to 38.0 cm?!";
-                    CUI.button1.Text = "No";
+                    CUI.cancelBTN.Text = "No";
                     CUI.ShowDialog();
                     if (CUI.confirm)
                     {

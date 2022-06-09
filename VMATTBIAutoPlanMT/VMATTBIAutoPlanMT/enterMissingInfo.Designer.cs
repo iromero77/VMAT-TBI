@@ -95,6 +95,7 @@ namespace VMATTBIAutoPlanMT
             this.Controls.Add(this.info);
             this.Controls.Add(this.title);
             this.Name = "enterMissingInfo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "enterMissingInfo";
             this.ResumeLayout(false);
             this.PerformLayout();
