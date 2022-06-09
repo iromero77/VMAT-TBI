@@ -1,6 +1,13 @@
-updated 4/26/2022
+updated 6/9/2022
 
 This branch is used for active development. The code contained in this branch may or may not work. Use at your own risk.
+
+Update push (6/9/2022):
+-All code is now executables
+-The autoplan executable is called from a simple plugin script within ESAPI
+-The optimization loop can be launched from the autoplan executable following successful generation of the plan and assignment of the optimization constraints
+-Code works (tested for a single case)
+-Currently testing on citrix and thick clients
 
 Initial push (4/26/2022):
 -rewrote plugin code so it is now an executable
