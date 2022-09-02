@@ -1694,7 +1694,7 @@ namespace VMATTBIautoPlan
                                         line = cropLine(line, "{");
                                         linac_temp.Add(line.Substring(0, line.IndexOf("}")));
                                     }
-                                    else if (line.Contains("add energy"))
+                                    else if (line.Contains("add beam energy"))
                                     {
                                         //parse the photon energies that should be added. One entry per line
                                         line = cropLine(line, "{");
