@@ -1,8 +1,7 @@
 updated 12/14/2022
-------------------------------------------------------------------------------
-NOTE! THIS BRANCH OF THE VMAT TBI AUTOPLANNING CODE WILL BE DEPRECATED IN THE COMING WEEKS! SEE THE BETA BRANCH OF THIS REPO (WILL BE MERGED INTO THE MASTER BRANCH)
-NUMEROUS BUG FIXES AND ADDITIONAL FEATURES!
-------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+NOTE! THIS BRANCH OF THE VMAT TBI AUTOPLANNING CODE WILL BE DEPRECATED IN THE COMING WEEKS! SEE THE BETA BRANCH OF THIS REPO (WILL BE MERGED INTO THE MASTER BRANCH) NUMEROUS BUG FIXES AND ADDITIONAL FEATURES!
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 11/12/2021
 -Added example patient scans and structures sets for testing. One VMAT-only case and one VMAT with AP/PA case are provided.
